@@ -30,8 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_libs\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\_libs\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +51,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\_MvcSolutionControllerBase.cs" />
+    <Compile Include="Dto\SessionUser.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\HttpRequestResponseExtensions.cs" />
+    <Compile Include="Extensions\PrincipalExtensions.cs" />
+    <Compile Include="Extensions\RouteCollectionExtensions.cs" />
+    <Compile Include="Images\DefaultImageParameterFixer.cs" />
+    <Compile Include="Images\IImageParameterFixer.cs" />
+    <Compile Include="Images\ImageParameter.cs" />
+    <Compile Include="Ioc\Ioc.cs" />
+    <Compile Include="Ioc\UnityContainerExtensions.cs" />
+    <Compile Include="ModelBinders\Base64ImageBinder.cs" />
+    <Compile Include="MvcApplication.cs" />
+    <Compile Include="Mvc\HtmlHelperExtensions.cs" />
+    <Compile Include="Mvc\IStandardResult.cs" />
+    <Compile Include="Mvc\StandardJsonResult.cs" />
+    <Compile Include="Mvc\StandardResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\MvcAuthorizeAttribute.cs" />
+    <Compile Include="Security\MvcRoleProvider.cs" />
+    <Compile Include="Security\MvcSession.cs" />
+    <Compile Include="ViewModels\LayoutViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Light.Framework.Core\Light.Framework.Core.csproj">
+      <Project>{ea12db61-b992-4188-ac52-f70a7f6fe446}</Project>
+      <Name>Light.Framework.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
