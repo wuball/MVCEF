@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+<div id="content_main" class="">
+
+</div>
+
+
+
+
+
+@section css
+{
+
+}
+
+@section script
+{
+    <script>
+        $(function () {
+
+            $('#sidebar-menu').find('a[go]').click(function () {
+                var url = '/admin' + $(this).attr('go');
+                loadAction(url);
+                console.log(url);
+            });
+
+        });
+
+        function loadAction(url) {
+            var time = new Date();
+            $.ajax({
+                type: "get",
+                url: url,
+                data: { time: time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() },
+                datatype: "json",
+                success: function (data) {
+                    $('#content_main').html(data);
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                }
+
+            });
+        }
+    </script>
+}

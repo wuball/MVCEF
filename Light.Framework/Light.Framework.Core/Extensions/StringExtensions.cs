@@ -13,19 +13,19 @@ namespace Light.Framework.Core.Extensions
             }
             return input.Equals(toCompare, comparison);
         }
-        
-        public static Guid? ToGuid(this string str)
+
+        public static Guid ToGuid(this string str)
         {
             if (string.IsNullOrEmpty(str))
             {
-                return null;
+                return Guid.Empty;
             }
             Guid id;
             if (Guid.TryParse(str, out id))
             {
                 return id;
             }
-            return null;
+            return Guid.Empty;
         }
 
         public static int? ToInt32(this string str)
@@ -37,11 +37,16 @@ namespace Light.Framework.Core.Extensions
             }
             return null;
         }
-        
+
         public static bool IsEmail(this string value)
         {
             var reg = new Regex(@"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
             return string.IsNullOrEmpty(value) == false && reg.IsMatch(value);
+        }
+
+        public static bool IsNullOrSpace(this string str)
+        {
+            return string.IsNullOrWhiteSpace(str);
         }
     }
 }

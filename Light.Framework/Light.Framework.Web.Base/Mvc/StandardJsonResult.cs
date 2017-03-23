@@ -3,6 +3,7 @@ using System.Text;
 using System.Web.Mvc;
 using Light.Framework.Core.Core;
 using Light.Framework.Core.Extensions;
+using Light.Framework.Core.Models;
 using Light.Framework.Core.Utilities;
 
 namespace Light.Framework.Web.Base.Mvc

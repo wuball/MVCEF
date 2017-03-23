@@ -2,6 +2,8 @@
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Light.Framework.Core.Utilities
 {

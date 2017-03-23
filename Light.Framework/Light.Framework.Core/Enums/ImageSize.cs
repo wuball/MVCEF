@@ -2,6 +2,9 @@
 
 namespace Light.Framework.Core.Enums
 {
+    /// <summary>
+    /// 图片尺寸
+    /// </summary>
     public enum ImageSize
     {
         Full = 0,

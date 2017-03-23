@@ -39,12 +39,23 @@ namespace Light.Framework.Core.Extensions
             var results = new List<T>();
             foreach (var item in source)
             {
-                if (!results.Any(resultItem => key(resultItem) == key(item)))
+                if (results.All(resultItem => key(resultItem) != key(item)))
                 {
                     results.Add(item);
                 }
             }
             return results;
+        }
+
+        /// <summary>
+        /// 判断序列是否包含任何元素，如果序列为空，则返回False
+        /// </summary>
+        /// <typeparam name="T">序列类型</typeparam>
+        /// <param name="source">序列</param>
+        /// <returns></returns>
+        public static bool AnyOne<T>(this IEnumerable<T> source)
+        {
+            return source != null ? source.Any() : false;
         }
 
     }

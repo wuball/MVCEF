@@ -19,13 +19,13 @@ namespace Light.Framework.Core.Logging
             _logger.Log(group, message);
         }
 
-        public static void Error(string group, string message)
+        public static void Error(string group, string message, string url = "")
         {
-            var url = string.Empty;
-            if (HttpContext.Current != null)
-            {
-                url = HttpContext.Current.Request.Url.OriginalString;
-            }
+            //var url = string.Empty;
+            //if (HttpContext.Current != null)
+            //{
+            //    url = HttpContext.Current.Request.Url.OriginalString;
+            //}
             _logger.Log(group, $"【{DateTime.Now}】{url}\r\n{message}");
         }
 

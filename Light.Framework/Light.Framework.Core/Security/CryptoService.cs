@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Light.Framework.Core.Security
 {
-    public class CryptoService
+    public static class CryptoService
     {
-        public static string Md5Encrypt(string input)
+        public static string Md5Encrypt(this string input)
         {
             var inputBytes = Encoding.UTF8.GetBytes(input);
             var keyBytes = Encoding.UTF8.GetBytes(AppContext.Md5Key);
@@ -18,7 +18,7 @@ namespace Light.Framework.Core.Security
             return Convert.ToBase64String(encrypted);
         }
 
-        public static string Md5Decrypt(string encodedString)
+        public static string Md5Decrypt(this string encodedString)
         {
             var encodedBytes = Convert.FromBase64String(encodedString);
             var keyBytes = Encoding.UTF8.GetBytes(AppContext.Md5Key);
@@ -30,14 +30,14 @@ namespace Light.Framework.Core.Security
             return Encoding.Default.GetString(decrypted);
         }
 
-        public static string Md5HashEncrypt(string input)
+        public static string Md5HashEncrypt(this string input)
         {
             var md5 = new MD5CryptoServiceProvider();
             var result = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
             return BitConverter.ToString(result);
         }
 
-        public static string Sha1HashEncrypt(string input)
+        public static string Sha1HashEncrypt(this string input)
         {
             var sha1 = new SHA1CryptoServiceProvider();
             var result = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
@@ -46,7 +46,7 @@ namespace Light.Framework.Core.Security
 
         #region private methods
 
-        private static byte[] MakeMd5(byte[] original)
+        private static byte[] MakeMd5(this byte[] original)
         {
             using (var hashmd5 = new MD5CryptoServiceProvider())
             {

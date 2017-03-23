@@ -1,0 +1,28 @@
+﻿@using Light.Framework.Core.Enums
+@using Light.Framework.Core.Extensions
+@model List<Light.Framework.Service.Admin.Dtos.MenuDto>
+<!-- sidebar menu -->
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        @*<h3>General</h3>*@
+        <ul class="nav side-menu">
+            @if (Model.AnyOne())
+            {
+                foreach (var module in Model.Where(item => item.Type == MenuType.Module))
+                {
+                    <li>
+                        <a><i class="@module.Icon"></i> @module.Name <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            @foreach (var menu in Model.Where(item => item.ParentId == module.Id))
+                            {
+                                <li><a href="javascript:void(0)" go="@menu.Url">@menu.Name</a></li>
+                            }
+                        </ul>
+
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+<!-- /sidebar menu -->

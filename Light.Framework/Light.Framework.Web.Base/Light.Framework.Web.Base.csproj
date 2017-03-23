@@ -34,12 +34,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\_libs\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Mvc">
       <HintPath>..\_libs\System.Web.Mvc.dll</HintPath>
     </Reference>
@@ -52,12 +68,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ImageController.cs" />
-    <Compile Include="Controllers\_MvcSolutionControllerBase.cs" />
+    <Compile Include="Controllers\LightControllerBase.cs" />
     <Compile Include="Dto\SessionUser.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\HttpRequestResponseExtensions.cs" />
+    <Compile Include="Extensions\IdentityExtention.cs" />
     <Compile Include="Extensions\PrincipalExtensions.cs" />
     <Compile Include="Extensions\RouteCollectionExtensions.cs" />
+    <Compile Include="Filters\IgnoreRightFilter.cs" />
+    <Compile Include="Filters\RightFilter.cs" />
     <Compile Include="Images\DefaultImageParameterFixer.cs" />
     <Compile Include="Images\IImageParameterFixer.cs" />
     <Compile Include="Images\ImageParameter.cs" />
@@ -66,9 +85,7 @@
     <Compile Include="ModelBinders\Base64ImageBinder.cs" />
     <Compile Include="MvcApplication.cs" />
     <Compile Include="Mvc\HtmlHelperExtensions.cs" />
-    <Compile Include="Mvc\IStandardResult.cs" />
     <Compile Include="Mvc\StandardJsonResult.cs" />
-    <Compile Include="Mvc\StandardResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\MvcAuthorizeAttribute.cs" />
     <Compile Include="Security\MvcRoleProvider.cs" />
@@ -80,6 +97,13 @@
       <Project>{ea12db61-b992-4188-ac52-f70a7f6fe446}</Project>
       <Name>Light.Framework.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Light.Framework.Service\Light.Framework.Service.csproj">
+      <Project>{3F3E8A77-7293-416F-A703-9D0F895BC278}</Project>
+      <Name>Light.Framework.Service</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
