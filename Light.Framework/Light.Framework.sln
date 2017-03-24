@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Light.Framework.Web.Base", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Light.Framework.Service.Admin", "Light.Framework.Service.Admin\Light.Framework.Service.Admin.csproj", "{584C5C9B-3245-4242-8FA0-DD7CE2BCD9B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Light.Framework.Service.Home", "Light.Framework.Service.Home\Light.Framework.Service.Home.csproj", "{88533E01-3ABF-402C-8090-7EC91B2BF56A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Light.Framework.Web", "Light.Framework.Web\Light.Framework.Web.csproj", "{5DFB3FD6-4190-46F7-9214-7D045007FDE3}"
 EndProject
 Global
@@ -43,10 +41,6 @@ Global
 		{584C5C9B-3245-4242-8FA0-DD7CE2BCD9B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{584C5C9B-3245-4242-8FA0-DD7CE2BCD9B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{584C5C9B-3245-4242-8FA0-DD7CE2BCD9B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88533E01-3ABF-402C-8090-7EC91B2BF56A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88533E01-3ABF-402C-8090-7EC91B2BF56A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88533E01-3ABF-402C-8090-7EC91B2BF56A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88533E01-3ABF-402C-8090-7EC91B2BF56A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5DFB3FD6-4190-46F7-9214-7D045007FDE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5DFB3FD6-4190-46F7-9214-7D045007FDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DFB3FD6-4190-46F7-9214-7D045007FDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU

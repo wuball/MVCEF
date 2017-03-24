@@ -1,7 +1,11 @@
-﻿
+﻿@model Light.Framework.Service.Admin.Dtos.LoginDto
 @{
+    Layout = null;
     ViewBag.Title = "Login";
 }
 
-<h2>Login</h2>
-
+<form method="post">
+    <input name="LoginName" value="@Model.LoginName"/>
+    <input name="Password" value="@Model.Password"/>
+    <input type="submit" value="登录"/>
+</form>

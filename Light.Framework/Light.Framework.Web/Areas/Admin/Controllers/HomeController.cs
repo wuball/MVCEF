@@ -55,23 +55,9 @@ namespace Light.Framework.Web.Areas.Admin.Controllers
             var result = _us.Login(model);
             if (result.Success)
             {
-
-                Response.SetAuthCookie(result.Value.Id.ToString());
-
-
-                //var authenticationManager = HttpContext.GetOwinContext().Authentication;
-                //var claims = new List<Claim>
-                //{
-                //    new Claim("LoginUserId", loginDto.User.Id),
-                //    new Claim("IsSuperMan", loginDto.User.IsSuperMan.ToString()),   //判断是否超级管理员
-                //    new Claim(ClaimTypes.Name, model.LoginName)
-                //};
-                //var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-                //var pro = new AuthenticationProperties()
-                //{
-                //    IsPersistent = true
-                //};
-                //authenticationManager.SignIn(pro, identity);
+                Response.SetAuthCookie(result.Value.Username,
+                    result.Value.Roles.Aggregate("", (i, j) => j + ",").TrimEnd(','),
+                    model.RememberMe);
 
                 if (model.ReturnUrl.IsNullOrSpace())
                     return RedirectToAction("Index");

@@ -15,12 +15,16 @@ namespace Light.Framework.Web.Base.Security
 
         public override string[] GetRolesForUser(string username)
         {
-            var user = HttpContext.Current.Session.GetMvcSession().User;
-            if (user == null)
-            {
-                return null;
-            }
-            return user.Roles;
+            if (HttpContext.Current.User == null) return null;
+            if (!HttpContext.Current.User.Identity.IsAuthenticated) return null;
+            var identity = HttpContext.Current.User.Identity as FormsIdentity;
+            if (identity == null) return null;
+
+            var id = identity;
+            var ticket = id.Ticket;
+            var userData = ticket.UserData;
+            var roles = userData.Split(',');
+            return roles;
         }
 
         public override void CreateRole(string roleName)

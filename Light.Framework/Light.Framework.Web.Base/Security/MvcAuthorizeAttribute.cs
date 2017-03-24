@@ -47,7 +47,9 @@ namespace Light.Framework.Web.Base.Security
         public void Authenticate(AuthorizationContext filterContext)
         {
             var context = filterContext.RequestContext.HttpContext;
-            var isAuthenticated = context.Request.IsAuthenticated;
+            var isAuthenticated1 = context.Request.IsAuthenticated;
+            var isAuthenticated2 = context.User.Identity.IsAuthenticated;
+            var isAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated;
             if (!string.IsNullOrEmpty(this.Roles))
             {
                 isAuthenticated = isAuthenticated && this.Roles.Split(',').Any(r => context.User.IsInRole(r));
@@ -66,7 +68,7 @@ namespace Light.Framework.Web.Base.Security
             }
             else
             {
-                filterContext.Result = new RedirectResult("/login?returnUrl=" + HttpContext.Current.Request.RawUrl);
+                filterContext.Result = new RedirectResult("/admin/home/login?returnUrl=" + HttpContext.Current.Request.RawUrl);
             }
         }
     }

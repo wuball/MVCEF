@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Light.Framework.Web.Base.Security;
 
 namespace Light.Framework.Web.Areas.Admin.Controllers
 {
+    [MvcAuthorize]
     public class RoleController : Controller
     {
         // GET: Admin/Role

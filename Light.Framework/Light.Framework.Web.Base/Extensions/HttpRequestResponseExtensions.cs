@@ -22,22 +22,30 @@ namespace Light.Framework.Web.Base.Extensions
             return request.RequestContext.HttpContext.Request.GetUserId();
         }
 
-        public static void SetAuthCookie(this HttpResponseBase response, string username)
+        public static void SetAuthCookie(this HttpResponseBase response, string username, string roles,
+            bool isRemember = true)
         {
             var expire = DateTime.Now.AddDays(AppContext.LoginExpireDays);
-            var ticket = new FormsAuthenticationTicket(2, username, DateTime.Now, expire, true, username);
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName);
-            cookie.Domain = FormsAuthentication.CookieDomain;
-            cookie.Path = FormsAuthentication.FormsCookiePath;
-            cookie.Value = FormsAuthentication.Encrypt(ticket);
-            cookie.Expires = expire;
+            var ticket = new FormsAuthenticationTicket(3, username, DateTime.Now, expire, isRemember, roles);
+
+            var cookie = response.Cookies[FormsAuthentication.FormsCookieName] ??
+                         new HttpCookie(FormsAuthentication.FormsCookieName)
+                         {
+                             Domain = FormsAuthentication.CookieDomain,
+                             Path = FormsAuthentication.FormsCookiePath,
+                             Value = FormsAuthentication.Encrypt(ticket)
+                         };
+
+            if (isRemember)
+            {
+                cookie.Expires = expire;
+            }
             response.Cookies.Add(cookie);
 
-            var guestCookie = new HttpCookie("GUESTID", Guid.Empty.ToString());
-            guestCookie.Expires = DateTime.Now.AddYears(-1);
-            response.Cookies.Add(guestCookie);
+            //var guestCookie = new HttpCookie("GUESTID", Guid.Empty.ToString()) { Expires = DateTime.Now.AddYears(-1) };
+            //response.Cookies.Add(guestCookie);
         }
-        
+
         public static bool IsAjax(this HttpRequest request)
         {
             return request["ajax"] == "true";
