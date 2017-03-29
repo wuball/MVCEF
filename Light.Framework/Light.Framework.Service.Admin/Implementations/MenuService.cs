@@ -41,5 +41,17 @@ namespace Light.Framework.Service.Admin.Implementations
                 return null;
             }
         }
+
+        public string GetRolesString(string url)
+        {
+            using (var db = NewDB())
+            {
+                var vms = db.Menus.AsNoTracking()
+                    .FirstOrDefault(m => m.Url == url)
+                    ?.Roles.Select(m => m.Name);
+
+                return vms == null ? "" : vms.EnumerableToString();
+            }
+        }
     }
 }

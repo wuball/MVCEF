@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Light.Framework.Core.Extensions;
 using Light.Framework.Service.Admin.Dtos;
 using Light.Framework.Service.Admin.Implementations;
@@ -55,8 +56,9 @@ namespace Light.Framework.Web.Areas.Admin.Controllers
             var result = _us.Login(model);
             if (result.Success)
             {
-                Response.SetAuthCookie(result.Value.Username,
-                    result.Value.Roles.Aggregate("", (i, j) => j + ",").TrimEnd(','),
+                var data = result.Value.Id + "|" + result.Value.Roles.Aggregate("", (i, j) => j + ",").TrimEnd(',');
+                HttpContext.SetAuthCookie(result.Value.Username,
+                    data,
                     model.RememberMe);
 
                 if (model.ReturnUrl.IsNullOrSpace())
@@ -64,6 +66,17 @@ namespace Light.Framework.Web.Areas.Admin.Controllers
                 return Redirect(model.ReturnUrl);
             }
             return View(model);
+        }
+
+
+        /// <summary>
+        /// 退出登录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
         }
 
     }

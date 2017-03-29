@@ -22,28 +22,31 @@ namespace Light.Framework.Web.Base.Extensions
             return request.RequestContext.HttpContext.Request.GetUserId();
         }
 
-        public static void SetAuthCookie(this HttpResponseBase response, string username, string roles,
+
+        public static void SetAuthCookie(this HttpContextBase httpContext, string username, string data,
             bool isRemember = true)
         {
-            var expire = DateTime.Now.AddDays(AppContext.LoginExpireDays);
-            var ticket = new FormsAuthenticationTicket(3, username, DateTime.Now, expire, isRemember, roles);
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                        1,
+                        username,
+                        DateTime.Now,
+                        DateTime.Now.Add(FormsAuthentication.Timeout),
+                        isRemember,
+                        data
+                        );
+            string encTicket = FormsAuthentication.Encrypt(ticket);
+            HttpCookie cookie = httpContext.Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie(FormsAuthentication.FormsCookieName);
+            }
 
-            var cookie = response.Cookies[FormsAuthentication.FormsCookieName] ??
-                         new HttpCookie(FormsAuthentication.FormsCookieName)
-                         {
-                             Domain = FormsAuthentication.CookieDomain,
-                             Path = FormsAuthentication.FormsCookiePath,
-                             Value = FormsAuthentication.Encrypt(ticket)
-                         };
+            cookie.Value = encTicket;
 
             if (isRemember)
-            {
-                cookie.Expires = expire;
-            }
-            response.Cookies.Add(cookie);
+                cookie.Expires = DateTime.Now.AddDays(AppContext.LoginExpireDays);
 
-            //var guestCookie = new HttpCookie("GUESTID", Guid.Empty.ToString()) { Expires = DateTime.Now.AddYears(-1) };
-            //response.Cookies.Add(guestCookie);
+            httpContext.Response.Cookies.Add(cookie);
         }
 
         public static bool IsAjax(this HttpRequest request)

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using Light.Framework.Service.Admin.Implementations;
 using Light.Framework.Web.Base.Mvc;
 
 namespace Light.Framework.Web.Base.Security
@@ -9,7 +11,7 @@ namespace Light.Framework.Web.Base.Security
     {
         public MvcAuthorizeAttribute()
         {
-            
+
         }
 
         public MvcAuthorizeAttribute(string roles)
@@ -17,59 +19,81 @@ namespace Light.Framework.Web.Base.Security
             this.Roles = roles;
         }
 
+        public string ControllerName { get; set; }
+        public string ActionName { get; set; }
+
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            var actionAttrs = filterContext.ActionDescriptor.GetCustomAttributes(true);
+            var acctionDesc = filterContext.ActionDescriptor;
+
+            var actionAttrs = acctionDesc.GetCustomAttributes(true);
             if (actionAttrs.Any(x => x is AllowAnonymousAttribute))
             {
                 return;
             }
-            var actionAttr = actionAttrs.FirstOrDefault(x => x is MvcAuthorizeAttribute);
-            if (actionAttr != null)
-            {
-                ((MvcAuthorizeAttribute)actionAttr).Authenticate(filterContext);
-                return;
-            }
-            var controllerAttrs = filterContext.ActionDescriptor.ControllerDescriptor.GetCustomAttributes(true);
+            //var actionAttr = actionAttrs.FirstOrDefault(x => x is MvcAuthorizeAttribute);
+            //if (actionAttr != null)
+            //{
+            //    ((MvcAuthorizeAttribute)actionAttr).Authenticate(filterContext);
+            //    return;
+            //}
+            var controllerAttrs = acctionDesc.ControllerDescriptor.GetCustomAttributes(true);
             if (controllerAttrs.Any(x => x is AllowAnonymousAttribute))
             {
                 return;
             }
-            var controllerAttr = controllerAttrs.FirstOrDefault(x => x is MvcAuthorizeAttribute);
-            if (controllerAttr != null)
-            {
-                ((MvcAuthorizeAttribute)controllerAttr).Authenticate(filterContext);
-                return;
-            }
-            this.Authenticate(filterContext);
+            //var controllerAttr = controllerAttrs.FirstOrDefault(x => x is MvcAuthorizeAttribute);
+            //if (controllerAttr != null)
+            //{
+            //    ((MvcAuthorizeAttribute)controllerAttr).Authenticate(filterContext);
+            //    return;
+            //}
+
+            ControllerName = acctionDesc.ControllerDescriptor.ControllerName;
+            ActionName = acctionDesc.ActionName;
+            base.OnAuthorization(filterContext);
         }
 
-        public void Authenticate(AuthorizationContext filterContext)
+
+        /// <summary>
+        /// 根据role判断用户
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            var context = filterContext.RequestContext.HttpContext;
-            var isAuthenticated1 = context.Request.IsAuthenticated;
-            var isAuthenticated2 = context.User.Identity.IsAuthenticated;
-            var isAuthenticated = HttpContext.Current.User.Identity.IsAuthenticated;
-            if (!string.IsNullOrEmpty(this.Roles))
-            {
-                isAuthenticated = isAuthenticated && this.Roles.Split(',').Any(r => context.User.IsInRole(r));
-            }
-            if (isAuthenticated)
-            {
-                return;
-            }
 
-            if (HttpContext.Current.Request["ajax"] == "true")
+            if (HttpContext.Current.User != null)
             {
-                filterContext.Result = new StandardJsonResult()
+                if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    Message = context.Request.IsAuthenticated ? "Please login" : "You don't have sufficient permission"
-                };
+                    if (HttpContext.Current.User.Identity is FormsIdentity)
+                    {
+                        var url = "/" + ControllerName + "/" + ActionName;
+                        //if (url == "/System/_Menu")
+                        //{
+                        //    return true;
+                        //}
+                        //Roles = new MenuService().GetRolesString(url);
+                        //HttpContext.Current.User.IsInRole();
+
+                        FormsIdentity id = (FormsIdentity)HttpContext.Current.User.Identity;
+                        FormsAuthenticationTicket ticket = id.Ticket;
+                        string userData = ticket.UserData.Split('|')[1];
+                        var userRole = userData;
+                        //MenuService ms = new MenuService();
+                        Roles = new MenuService().GetRolesString(url);
+                        var roles = Roles.Split(',').ToList();
+
+                        if (userRole == "admin" || roles.Contains(userRole))
+                        {
+                            return true;
+                        }
+                    }
+                }
             }
-            else
-            {
-                filterContext.Result = new RedirectResult("/admin/home/login?returnUrl=" + HttpContext.Current.Request.RawUrl);
-            }
+            return false;
         }
+
     }
 }

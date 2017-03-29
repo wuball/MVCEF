@@ -97,6 +97,10 @@
       <Project>{ea12db61-b992-4188-ac52-f70a7f6fe446}</Project>
       <Name>Light.Framework.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Light.Framework.Service.Admin\Light.Framework.Service.Admin.csproj">
+      <Project>{584C5C9B-3245-4242-8FA0-DD7CE2BCD9B0}</Project>
+      <Name>Light.Framework.Service.Admin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Light.Framework.Service\Light.Framework.Service.csproj">
       <Project>{3F3E8A77-7293-416F-A703-9D0F895BC278}</Project>
       <Name>Light.Framework.Service</Name>
