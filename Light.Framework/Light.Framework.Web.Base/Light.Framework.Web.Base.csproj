@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\CompressAttribute.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\LightControllerBase.cs" />
     <Compile Include="Dto\SessionUser.cs" />
